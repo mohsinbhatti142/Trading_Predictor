@@ -6,6 +6,7 @@ from sklearn.preprocessing import MinMaxScaler
 from tensorflow.keras.models import load_model
 import joblib
 import streamlit.components.v1 as components
+import os
 
 # --- Dashboard UI ---
 st.set_page_config(page_title="🚀 Elite BTC Trading Dashboard", layout="wide")
@@ -98,13 +99,24 @@ lookback_dict = {
 }
 lookback = lookback_dict.get(timeframe, 10)
 
+# --- Enhanced model/scaler loading with absolute path debug ---
 def load_model_and_scaler(timeframe):
+    model_path = os.path.abspath(f"model_{timeframe}.h5")
+    scaler_path = os.path.abspath(f"scaler_{timeframe}.pkl")
+    st.write(f"Looking for model at: {model_path}")
+    st.write(f"Looking for scaler at: {scaler_path}")
+    if not os.path.exists(model_path):
+        st.error(f"Model file not found: {model_path}")
+        return None, None
+    if not os.path.exists(scaler_path):
+        st.error(f"Scaler file not found: {scaler_path}")
+        return None, None
     try:
-        model = load_model(f"model_{timeframe}.h5", compile=False)
-        scaler = joblib.load(f"scaler_{timeframe}.pkl")
+        model = load_model(model_path, compile=False)
+        scaler = joblib.load(scaler_path)
         return model, scaler
     except Exception as e:
-        st.warning(f"ML model/scaler not found for {timeframe}. Showing chart only.\n{e}")
+        st.error(f"Error loading model/scaler for {timeframe}: {e}")
         return None, None
 
 model, scaler = load_model_and_scaler(timeframe)
