@@ -7,17 +7,9 @@ from datetime import datetime
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 from sklearn.preprocessing import MinMaxScaler
+from streamlit_autorefresh import st_autorefresh
 
-# ---------------- Load trained model ----------------
-@st.cache_resource
-def load_model_cached():
-    try:
-        return load_model("your_model.h5", compile=False)  # Fix: don't compile, just load for prediction
-    except Exception as e:
-        st.error(f"❌ your_model.h5 not found or invalid. Error: {e}")
-        return None
-
-model = load_model_cached()
+st_autorefresh(interval=300000, key="refresh")
 
 # ---------------- Fetch data from Binance ----------------
 timeframes = ['5m', '30m', '1h', '4h', '1d', '1w']
