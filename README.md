@@ -284,4 +284,4 @@ Pull requests and feedback are welcome!
 ---
 
 ## 📧 Contact
-If you found this useful or want to collaborate, connect on [LinkedIn](linkedin.com/in/mohsin-sheraz-142nb/) or drop a message!
+If you found this useful or want to collaborate, connect on  [LinkedIn](linkedin.com/in/mohsin-sheraz-142nb/) or drop a message!
